@@ -4,7 +4,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var cool = require('cool-ascii-faces');
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
 
 app.get('/', function(req, res){
 	res.send(cool());

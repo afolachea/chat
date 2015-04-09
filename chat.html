@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ninja Chat</title>
+	<style>
+		#chat
+		{
+			height: 300px;
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<h2>Chat</h2>
+	<div id="chat"></div>
+	<form id="send-message">
+		<input type="text" id="message">
+		<input type="submit">
+	</form>
+
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+		jQuery(function($){
+			var socket = io.connect();
+			var $messageForm = $('#send-message');
+			var $messageBox = $('#message');
+			var $chat = $('#chat');
+
+			$messageForm.on('submit', function(e){
+				e.preventDefault();
+				socket.emit('send message', $messageBox.val());
+				$messageBox.val('');
+			});
+
+			socket.on('new message', function(data){
+				$chat.append(data + "<br/>");
+			})
+		});
+	</script>
+</body>
+</html>
